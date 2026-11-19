@@ -1,0 +1,42 @@
+class Solution:
+    def minCostConnectPoints(self, points: list[list[int]]) -> int:
+        n = len(points)
+        edges = []
+
+        for i in range (n):
+            for j in range (i+1, n):
+                x1,y1 = points[i]
+                x2,y2 = points[j]
+
+                dist = abs(x2 - x1) + abs(y2 - y1)
+                edges.append(dist, i, j)
+            
+            edges.sort()
+
+            union = list(range(n))
+
+            def find(x):
+                while union[x] != x:
+                    x = union[x]
+                return x
+            
+            total_weight = 0
+            edges_used = 0
+        
+            for weight, u, v in edges:
+                comp_u = find(u)
+                comp_v = find(v)
+
+            if comp_u != comp_v:
+                union[comp_u] = comp_v
+                total_weight += weight
+                edges_used += 1
+
+                if edges_used == n-1:
+                    break
+            
+            return total_weight
+
+
+
+
